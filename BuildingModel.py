@@ -50,3 +50,20 @@ model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Flatten())
 model.add(Dense(128, activation='relu'))
 model.add(Dense(1, activation='sigmoid'))
+
+
+# Compile the model
+model.compile(optimizer=Adam(learning_rate=0.001), loss='binary_crossentropy', metrics=['accuracy'])
+
+# Train the model
+model.fit(
+    train_generator,
+    steps_per_epoch=train_generator.n // batch_size,
+    epochs=10,
+    validation_data=validation_generator,
+    validation_steps=validation_generator.n // batch_size
+)
+
+# Evaluate the model
+_, accuracy = model.evaluate(validation_generator)
+print("Accuracy: %.2f%%" % (accuracy * 100.0))
