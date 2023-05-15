@@ -67,3 +67,7 @@ model.fit(
 # Evaluate the model
 _, accuracy = model.evaluate(validation_generator)
 print("Accuracy: %.2f%%" % (accuracy * 100.0))
+
+# Save the model
+model.save('brain_tumor_classifier.h5')
+print("Model saved successfully.")
