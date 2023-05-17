@@ -1,4 +1,4 @@
-# BrainGuard
+# BrainGuard (AI Brain Tumor Detection)
 
 BrainGuard is an advanced AI tool designed to analyze MRI brain images and predict the presence of tumors.
 
