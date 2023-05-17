@@ -61,13 +61,18 @@ model.add(Dense(1, activation='sigmoid'))
 # Compile the model
 model.compile(optimizer=SGD(), loss='binary_crossentropy', metrics=['accuracy'])
 
+#EarlyStopping
+es = EarlyStopping(monitor="val_loss", mode="min", restore_best_weights=True, patience= 3)
+
 # Train the model
 model.fit(
     train_generator,
-    steps_per_epoch=train_generator.n // batch_size,
+    #steps_per_epoch=train_generator.n // batch_size,
     epochs=10,
+    #validation_split=0.1 #remove 0.1 from the training to make it validaiton set
     validation_data=validation_generator,
-    validation_steps=validation_generator.n // batch_size
+    callbacks=[es]
+    #validation_steps=validation_generator.n // batch_size
 )
 
 # Evaluate the model
