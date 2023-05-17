@@ -59,7 +59,7 @@ model.add(Dense(1, activation='sigmoid'))
 
 
 # Compile the model
-model.compile(optimizer=Adam(learning_rate=0.001), loss='binary_crossentropy', metrics=['accuracy'])
+model.compile(optimizer=SGD(), loss='binary_crossentropy', metrics=['accuracy'])
 
 # Train the model
 model.fit(
