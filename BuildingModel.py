@@ -1,9 +1,9 @@
 import numpy as np
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
-from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
-from keras.optimizers import Adam
-
+from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, BatchNormalization
+from keras.optimizers import SGD
+from keras.callbacks import EarlyStopping
 
 # Define the paths to your training and testing data directories
 train_data_dir = 'dataset/TRAIN'
