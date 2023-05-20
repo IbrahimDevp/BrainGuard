@@ -12,11 +12,11 @@ test_data_dir = 'dataset/TEST'
 # Preprocessing steps
 train_datagen = ImageDataGenerator(
     rescale=1.0 / 255.0,
-    rotation_range=20,
-    width_shift_range=0.1,
-    height_shift_range=0.1,
+    rotation_range=25,
+    zoom_range=0.05,
     horizontal_flip=True,
-    vertical_flip=True
+    vertical_flip=False,
+    validation_split=0.8
 )
 
 test_datagen = ImageDataGenerator(rescale=1.0 / 255.0)
