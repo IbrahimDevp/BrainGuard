@@ -3,7 +3,7 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, BatchNormalization
 from keras.optimizers import SGD
-from keras.callbacks import EarlyStopping
+from keras.callbacks import ModelCheckpoint
 
 # Define the paths to your training and testing data directories
 train_data_dir = 'dataset/TRAIN'
@@ -43,7 +43,8 @@ validation_generator = test_datagen.flow_from_directory(
 
 # Define the CNN model
 model = Sequential()
-model.add(Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(256, 256, 3), padding="same"))
+model.add(Conv2D(64, kernel_size=(3, 3), activation='relu', input_shape=(256, 256, 3), padding="same"))
+model.add(Conv2D(32,3,activation='relu'))
 model.add(BatchNormalization())
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Conv2D(64, kernel_size=(3, 3), activation='relu', padding="same"))
@@ -57,28 +58,26 @@ model.add(Flatten())
 model.add(Dense(128, activation='relu'))
 model.add(Dense(1, activation='sigmoid'))
 
-
 # Compile the model
 model.compile(optimizer=SGD(), loss='binary_crossentropy', metrics=['accuracy'])
 
-#EarlyStopping
-es = EarlyStopping(monitor="val_loss", mode="min", restore_best_weights=True, patience= 3)
-
+checkpoint = ModelCheckpoint(filepath='best_model.h5', monitor='val_loss', mode='min', save_best_only=True, verbose=1)
 # Train the model
 model.fit(
     train_generator,
     #steps_per_epoch=train_generator.n // batch_size,
-    epochs=10,
+    epochs=50,
     #validation_split=0.1 #remove 0.1 from the training to make it validaiton set
     validation_data=validation_generator,
-    callbacks=[es]
+    callbacks=[checkpoint]
     #validation_steps=validation_generator.n // batch_size
 )
 
+# Load the best model weights
+model.load_weights('best_model.h5')
 # Evaluate the model
 _, accuracy = model.evaluate(validation_generator)
 print("Accuracy: %.2f%%" % (accuracy * 100.0))
-
 # Save the model
-model.save('brain_tumor_classifier.h5')
+model.save('best_model.h5')
 print("Model saved successfully.")
